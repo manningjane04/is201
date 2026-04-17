@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke Generator</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: aliceblue;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 3rem 1rem;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #c8d8e8;
+            margin-bottom: 2rem;
+        }
+
+        .header-label {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #7a9ab8;
+            margin-bottom: 10px;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: normal;
+            color: #1a2a3a;
+            margin-bottom: 8px;
+        }
+
+        .header-sub {
+            font-size: 14px;
+            color: #5a7a9a;
+            line-height: 1.7;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #d0e0ee;
+            border-radius: 14px;
+            padding: 2.5rem 2rem;
+            min-height: 170px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .placeholder-text {
+            font-size: 15px;
+            color: #9ab8d0;
+            text-align: center;
+            line-height: 1.75;
+            font-style: italic;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 99px;
+            background-color: #eef4fa;
+            color: #5a7a9a;
+            border: 1px solid #c8d8e8;
+        }
+
+        .setup-text {
+            font-size: 17px;
+            color: #1a2a3a;
+            text-align: center;
+            line-height: 1.8;
+            display: none;
+        }
+
+        .divider {
+            width: 36px;
+            height: 1px;
+            background-color: #c8d8e8;
+            display: none;
+        }
+
+        .punchline-text {
+            font-size: 17px;
+            font-weight: bold;
+            color: #8b0000;
+            text-align: center;
+            line-height: 1.8;
+            display: none;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #8b0000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 32px;
+            font-size: 15px;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: background-color 0.15s;
+        }
+
+        .btn-primary:hover { background-color: #6b0000; }
+        .btn-primary:active { transform: scale(0.98); }
+
+        .btn-secondary {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            color: #5a7a9a;
+            border: 1px solid #c8d8e8;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-family: Georgia, serif;
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+
+        .btn-secondary:hover { background-color: #eef4fa; }
+        .btn-secondary:active { transform: scale(0.98); }
+
+        .stats-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .stat {
+            flex: 1;
+            background-color: white;
+            border: 1px solid #d0e0ee;
+            border-radius: 10px;
+            padding: 14px 16px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 26px;
+            color: #1a2a3a;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #7a9ab8;
+            letter-spacing: 0.04em;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #9ab8d0;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+
+        <div class="header">
+            <div class="header-label">Entertainment</div>
+            <h1 class="header-title">Joke Generator</h1>
+            <p class="header-sub">A curated collection of classics. One click at a time.</p>
+        </div>
+
+        <div class="card" id="jokeCard">
+            <p class="placeholder-text" id="placeholder">Press the button below to receive your first joke.</p>
+            <span class="tag" id="setupTag" style="display:none;">Setup</span>
+            <p class="setup-text" id="setup"></p>
+            <div class="divider" id="divider"></div>
+            <span class="tag" id="punchTag" style="display:none;">Punchline</span>
+            <p class="punchline-text" id="punchline"></p>
+        </div>
+
+        <div class="actions">
+            <button class="btn-primary" onclick="newJoke()">Tell me a joke</button>
+            <button class="btn-secondary" id="revealBtn" onclick="revealPunchline()">Reveal punchline</button>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat">
+                <div class="stat-num" id="countNum">0</div>
+                <div class="stat-label">Jokes told</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">25</div>
+                <div class="stat-label">In collection</div>
+            </div>
+        </div>
+
+        <p class="footer-note">&copy;2026 Jane Manning</p>
+
+    </div>
+
+    <script>
+        const jokes = [
+            { setup: "Why don't scientists trust atoms?", punchline: "Because they make up everything!" },
+            { setup: "I told my wife she was drawing her eyebrows too high.", punchline: "She looked surprised." },
+            { setup: "Why did the scarecrow win an award?", punchline: "Because he was outstanding in his field!" },
+            { setup: "I'm reading a book about anti-gravity.", punchline: "It's impossible to put down." },
+            { setup: "Why don't eggs tell jokes?", punchline: "They'd crack each other up." },
+            { setup: "What do you call a fake noodle?", punchline: "An impasta!" },
+            { setup: "Why did the bicycle fall over?", punchline: "Because it was two-tired." },
+            { setup: "What do you call cheese that isn't yours?", punchline: "Nacho cheese!" },
+            { setup: "I used to hate facial hair...", punchline: "But then it grew on me." },
+            { setup: "Why can't you give Elsa a balloon?", punchline: "Because she'll let it go." },
+            { setup: "What do you call a bear with no teeth?", punchline: "A gummy bear." },
+            { setup: "Why did the math book look so sad?", punchline: "Because it had too many problems." },
+            { setup: "What do you call a sleeping dinosaur?", punchline: "A dino-snore!" },
+            { setup: "Why did the golfer bring an extra pair of pants?", punchline: "In case he got a hole in one." },
+            { setup: "What do you call a fish without eyes?", punchline: "A fsh." },
+            { setup: "Why don't skeletons fight each other?", punchline: "They don't have the guts." },
+            { setup: "What did the ocean say to the beach?", punchline: "Nothing, it just waved." },
+            { setup: "Why did the coffee file a police report?", punchline: "It got mugged." },
+            { setup: "How do you organize a space party?", punchline: "You planet." },
+            { setup: "What do you call a dinosaur that crashes their car?", punchline: "Tyrannosaurus wrecks." },
+            { setup: "Why did the invisible man turn down the job offer?", punchline: "He couldn't see himself doing it." },
+            { setup: "What's a vampire's favorite fruit?", punchline: "A blood orange." },
+            { setup: "Why did the stadium get hot after the game?", punchline: "Because all the fans left." },
+            { setup: "I told my doctor I broke my arm in two places.", punchline: "He told me to stop going to those places." },
+            { setup: "What do you call a lazy kangaroo?", punchline: "A pouch potato." }
+        ];
+
+        let lastIndex = -1;
+        let count = 0;
+
+        function newJoke() {
+            let index;
+            do { index = Math.floor(Math.random() * jokes.length); } while (index === lastIndex);
+            lastIndex = index;
+            count++;
+            const joke = jokes[index];
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('setupTag').style.display = 'inline-block';
+            document.getElementById('setup').textContent = joke.setup;
+            document.getElementById('setup').style.display = 'block';
+            document.getElementById('divider').style.display = 'block';
+            document.getElementById('punchTag').style.display = 'none';
+            document.getElementById('punchline').textContent = joke.punchline;
+            document.getElementById('punchline').style.display = 'none';
+            document.getElementById('revealBtn').style.display = 'inline-flex';
+            document.getElementById('countNum').textContent = count;
+        }
+
+        function revealPunchline() {
+            document.getElementById('punchTag').style.display = 'inline-block';
+            document.getElementById('punchline').style.display = 'block';
+            document.getElementById('revealBtn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

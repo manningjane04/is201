@@ -1,0 +1,74 @@
+.header {
+    background-color: darkred;
+    color: white;
+    height: 100px;
+    line-height: 100px;
+}
+.mainbody {
+    background-color: aliceblue;
+    color: darkblue;
+    padding-bottom: 40px;
+}
+.mainbody > ul:first-child{
+    list-style: none;
+}
+html, body {
+    min-height: 100%;
+    background-color: aliceblue;
+}
+img {
+    display: block;
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.footer {
+    background-color: darkred;
+    color: aliceblue;
+    height: 35px;
+    line-height: 35px;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    text-align: center;
+}
+.footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.common {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+nav {
+    background-color: cornflowerblue;
+    padding: 10px;
+    overflow: hidden;
+}
+nav a {
+    color: darkblue;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+nav a:hover {
+    background-color: whitesmoke;
+}
+.video {
+    text-align: center;
+    margin: 20px 0;
+}
+.tableau{
+    text-align: center;
+    margin: 20px auto;
+    overflow: hidden;
+    width: 450px;
+    display: block;
+}
